@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paynimo Checkout Integration</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://www.paynimo.com/paynimocheckout/client/lib/jquery.min.js"></script>
+    <script src="https://www.paynimo.com/paynimocheckout/client/lib/paynimo-checkout.js"></script>
+    <script>
+        var configJson = {
+            'tarCall': false,
+            'features': {
+                'showPGResponseMsg': true,
+                'enableAbortResponse': true,
+                'enableNewWindowFlow': true,
+                'enableExpressPay': true
+            },
+            'consumerData': {
+                'deviceId': 'WEBSH2',
+                'token': 'D4757157CC322EEF5A60FC469943AC9C935E296EE7ACAA78C143FC585C4CAEBCC229FBEFEFA768B07779E0A3AC8E3571988A4EB0914FE69C925A00AA71F7E492',
+                'returnUrl': 'https://www.tekprocess.co.in/MerchantIntegrationClient/MerchantResponsePage.jsp',
+                'responseHandler': handleResponse,
+                'paymentMode': 'all',
+                'merchantLogoUrl': 'https://www.paynimo.com/CompanyDocs/company-logo-md.png',
+                'merchantId': 'T955031',
+                'currency': 'INR',
+                'consumerMobileNo': '9999999999',
+                'consumerEmailId': 'test@test.com',
+                'cartDescription': 'TESTING~OF~PAYMENT',
+                'txnId': '164723541',
+                'items': [{
+                    'itemId': 'FIRST',
+                    'amount': '10',
+                    'comAmt': '0'
+                }],
+                'customStyle': {
+                    'PRIMARY_COLOR_CODE': '#3977b7',
+                    'SECONDARY_COLOR_CODE': '#FFFFFF',
+                    'BUTTON_COLOR_CODE_1': '#1969bb',
+                    'BUTTON_COLOR_CODE_2': '#FFFFFF'
+                }
+            }
+        };
+
+        $(document).ready(function() {
+            $.pnCheckout(configJson);
+            if(configJson.features.enableNewWindowFlow) {
+                pnCheckoutShared.openNewWindow();
+            }
+        });
+
+        function handleResponse(response) {
+            console.log(response);
+            if(response.paymentMethod.paymentTransaction.statusCode == '0300') {
+                // Payment Success
+            } else {
+                // Payment Failure
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Paynimo Checkout Integration</h1>
+</body>
+</html>
